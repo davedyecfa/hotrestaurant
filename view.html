@@ -54,7 +54,7 @@
 	<footer class="footer">
 		<div class="container">
 			<p>Control Panel</p>
-			<p><a href="#" id="clear">Clear Table</a> | <a href="/api/tables">API Table Link</a> | <a href="/api/waitlist">API Wait List</a></p>
+			<p><a href="#" id="clear">Clear Table</a> | <a href="/api/current">API Table Link</a> | <a href="/api/wait">API Wait List</a></p>
 		</div>
 	</footer>
 
@@ -77,33 +77,39 @@
         var currentURL = window.location.origin;
 
         // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-        $.ajax({url: currentURL + "/api/tables", method: "GET"})
+        $.ajax({url: currentURL + "/api", method: "GET"})
             .done(function(tableData) {
 
                 // Here we are logging the URL so we have access to it for troubleshooting
                 console.log("------------------------------------");
-                console.log("URL: " + currentURL + "/api/tables");
+                console.log("URL: " + currentURL + "/api");
                 console.log("------------------------------------");
 
                 // Here we then log the NYTData to console, where it will show up as an object.
                 console.log(tableData);
+                console.log(tableData.length);
                 console.log("------------------------------------")
 
-                // Loop through and display each of the customers
-                for (var i=0; i<tableData.length; i++){
 
-                    // Create the HTML Well (Section) and Add the table content for each reserved table
-                    var tableSection = $("<div>");
-                    tableSection.addClass('well');
-                    tableSection.attr('id', 'tableWell-' + i+1)
-                    $('#tableSection').append(tableSection);
+                    // Loop through and display each of the customers
+                    for (var i=0; i < 5; i++){
 
-                    var tableNumber = i + 1;
+                        // Create the HTML Well (Section) and Add the table content for each reserved table
+                        var tableSection = $("<div>");
+                        tableSection.addClass('well');
+                        tableSection.attr('id', 'tableWell-' + i+1)
+                        $('#tableSection').append(tableSection);
+
+                        var tableNumber = i + 1;
 
 
-                    // Then display the remaining fields in the HTML (Section Name, Date, URL)
-                    $("#tableWell-"+ i+1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + tableData[i].customerID + "</h2>");
-                }
+                        // Then display the remaining fields in the HTML (Section Name, Date, URL)
+                        $("#tableWell-"+ i+1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + tableData[i].customerID + "</h2>");
+                    }
+
+
+
+
             });
     }
 
@@ -114,12 +120,12 @@
         var currentURL = window.location.origin;
 
         // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-        $.ajax({url: currentURL + "/api/waitlist", method: "GET"})
+        $.ajax({url: currentURL + "/api", method: "GET"})
             .done(function(waitlistData) {
 
                 // Here we are logging the URL so we have access to it for troubleshooting
                 console.log("------------------------------------");
-                console.log("URL: " + currentURL + "/api/waitlist");
+                console.log("URL: " + currentURL + "/api");
                 console.log("------------------------------------");
 
                 // Here we then log the NYTData to console, where it will show up as an object.
@@ -127,7 +133,7 @@
                 console.log("------------------------------------")
 
                 // Loop through and display each of the customers
-                for (var i=0; i<waitlistData.length; i++){
+                for (var i=5; i<waitlistData.length; i++){
 
                     // Create the HTML Well (Section) and Add the table content for each reserved table
                     var waitlistSection = $("<div>");
@@ -157,7 +163,7 @@
 
         // Refresh the page after data is cleared
         location.reload();
-    })
+    });
 
 
     // Run Queries!

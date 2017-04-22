@@ -34,7 +34,7 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 // Routes
 // =============================================================
 
-
+var reservations = [];
 // Basic route that sends the user first to the AJAX Page
 app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "index.html"));
@@ -48,10 +48,35 @@ app.get("/tables", function(req, res) {
   res.sendFile(path.join(__dirname, "view.html"));
 });
 
+app.post("/api/reservations", function (req, res) {
+
+    var data = req.body;
+
+    reservations.push(data);
+    res.json(true);
+});
+
+
+app.get("/api", function (req, res) {
+    res.json(reservations);
+});
+
+
+app.get("/api/current", function (req, res) {
+    var data = reservations.slice(0, 5);
+    res.json(data);
+});
 
 
 
-
+app.get("/api/wait", function (req, res) {
+    var data = reservations.slice(6, reservations.length);
+    res.json(data);
+});
+app.post("/api/clear", function (req, res) {
+    reservations = [];
+    res.json("");
+});
 // Starts the server to begin listening
 // =============================================================
 app.listen(PORT, function() {
